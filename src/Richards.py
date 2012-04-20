@@ -1,5 +1,5 @@
 import proteus
-from proteus.elastoplastic.cRichards import *
+from proteus.levees.cRichards import *
 
 class Coefficients(proteus.TransportCoefficients.TC_base):
     """

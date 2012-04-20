@@ -1,5 +1,5 @@
 import proteus
-from proteus.elastoplastic.cElastoPlastic import *
+from proteus.levees.cElastoPlastic import *
 
 class Coefficients(proteus.TransportCoefficients.TC_base):
     def __init__(self,
@@ -190,6 +190,7 @@ class LevelModel(proteus.Transport.OneLevelTransport):
         #
         #set the objects describing the method and boundary conditions
         #
+        self.velocityPostProcessor = None
         self.movingDomain=movingDomain
         self.tLast_mesh=None
         #
