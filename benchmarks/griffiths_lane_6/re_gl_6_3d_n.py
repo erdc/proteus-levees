@@ -8,14 +8,16 @@ stepController  = FLCBDF_controller
 systemStepControllerType = SplitOperator.Sequential_MinFLCBDFModelStep
 rtol_u[0] = 1.0e-4
 atol_u[0] = 1.0e-4
-tnList = [0.0,1.0e-5,1.0e5]
+tnList = [0.0,1.0e-10,1.0e5]
 timeIntegration = BackwardEuler
+#stepController =  BackwardEuler_cfl
+#runCFL=0.9
 stepController = HeuristicNL_dt_controller
-nonlinearIterationsFloor =5
-nonlinearIterationsCeil=10
+nonlinearIterationsFloor =10
+nonlinearIterationsCeil=15
 systemStepControllerType = SplitOperator.Sequential_MinModelStep
-maxNonlinearIts=25
-maxLineSearches=25
+maxNonlinearIts=35
+maxLineSearches=0
 # maxNonlinearIts=100
 # maxLineSearches=0#25
 # #steady
@@ -67,10 +69,10 @@ atol_res = {0:atol}
 rtol_res = {0:0.0}
 matrix = SparseMatrix
 
-multilevelLinearSolver =PETSc
-levelLinearSolver = PETSc
-#multilevelLinearSolver = LU
-#levelLinearSolver = LU
+#multilevelLinearSolver =PETSc
+#levelLinearSolver = PETSc
+multilevelLinearSolver = LU
+levelLinearSolver = LU
 #multilevelLinearSolver =KSP_petsc4py
 #levelLinearSolver = KSP_petsc4py
 

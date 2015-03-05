@@ -235,7 +235,7 @@ namespace proteus
       //slight compressibility
       rhom = rho*exp(beta*u);
       drhom = beta*rhom;
-      m = rhom*thetaW;
+      m = u;//rhom*thetaW;
       dm = -rhom*DthetaW_DpsiC+drhom*thetaW;
       for (int I=0;I<nSpace;I++)
 	{
@@ -635,7 +635,7 @@ namespace proteus
 		    eN_k_i_nSpace = eN_k_i*nSpace,
 		    i_nSpace=i*nSpace;
 
-		  elementResidual_u[i] += ck.Mass_weak(m_t,u_test_dV[i]) + 
+		  elementResidual_u[i] += ck.Mass_weak(dm*m_t,u_test_dV[i]) + 
 		    ck.Advection_weak(f,&u_grad_test_dV[i_nSpace]) + 
 		    ck.Diffusion_weak(a_rowptr,a_colind,a,grad_u,&u_grad_test_dV[i_nSpace]);
 		  /* +  */
