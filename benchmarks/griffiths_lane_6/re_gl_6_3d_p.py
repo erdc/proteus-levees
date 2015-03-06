@@ -46,7 +46,7 @@ useSeepageFace = True
 leftHead  = 17.1+7.3
 rightHead = 7.3
 rightHeadInit  = rightHead
-leftHeadInit  = leftHead
+leftHeadInit  = rightHead
 
 class SaturatedIC:
     def uOfXT(self,x,t):
@@ -61,19 +61,34 @@ class SaturatedIC:
             return rightHeadInit*(x[0] - xL)/(xR-xL) + leftHeadInit*(xR - x[0])/(xR-xL) - x[2]
   
 psi0 = SaturatedIC()
+
+class BC:
+    def uOfXT(self,x,t):
+        #return leftHeadInit - x[2]
+        xL = 33.5+leftHead*tan(2.0*pi*18.0/360.0)
+        xR = 124.4+33.5
+        if (x[0] > xR):
+            return rightHead - x[2]
+        if (x[0] < xL):
+            return leftHead - x[2]
+        else:
+            return rightHead*(x[0] - xL)/(xR-xL) + leftHead*(xR - x[0])/(xR-xL) - x[2]
+  
+psibc = BC()
               
 initialConditions  = {0:psi0}
 
 def getDBC(x,flag):
     if flag in [boundaryFlags['left'],boundaryFlags['leftTop']]:
-        return lambda x,t: psi0.uOfXT(x,0)#leftHead - x[2] 
+        return lambda x,t: psibc.uOfXT(x,0)#leftHead - x[2] 
+        #return lambda x,t: leftHead - x[2] 
     elif flag == boundaryFlags['right']:
-        return lambda x,t: psi0.uOfXT(x,0)#rightHead - x[2]
+        return lambda x,t: psibc.uOfXT(x,0)#rightHead - x[2]
     elif flag == boundaryFlags['rightTop']:
         if useSeepageFace:
             return lambda x,t: 0.0
         else:
-            return lambda x,t: psi0.uOfXT(x,0)#rightHead - x[2]
+            return lambda x,t: psibc.uOfXT(x,0)#rightHead - x[2]
     else:
         return None
 
